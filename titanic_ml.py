@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 @author: Czander
+
+Basic ML implementation for 'Titanic: Machine Learning from Disaster' dataset. 
+Simplistic data wrangling.
+
+SVC                     --score: 67.86        --accuracy: 70.53
+Logistic Regression     --score: 79.00        --accuracy: 81.58
+Random Forest           --score: 98.14        --accuracy: 83.68
+Decision Tree           --score: 98.14        --accuracy: 79.47
 """
 
 import pandas as pd
