@@ -3,7 +3,7 @@
 @author: Czander
 
 Basic ML implementation for 'Digit Recognizer' dataset.
-No data wrangling at all, for 1000/42000 samples.
+No data wrangling at all, for 1000/42000 samples. 
 
 Results (accuracy)
 Logistic Regression:    91.56
