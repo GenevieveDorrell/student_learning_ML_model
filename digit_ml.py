@@ -24,13 +24,10 @@ def eval(y_pred, y):
     for i,val in enumerate(y_pred):
         if val == y[i]:
             count += 1
-        elif val == -1 and y[i] == 0:
-            count += 1
     return round((count/len(y)) * 100, 2)
 
 
 train_df = pd.read_csv('train.csv')
-
 samp_df = train_df[:]       #to toggle sample size
 
 #data with validation split -- ~ 80-20 split (training/validation)
