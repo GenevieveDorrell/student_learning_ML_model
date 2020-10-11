@@ -69,7 +69,7 @@ test_df = samp_df[9001:].copy().reset_index()
 
 x = df[['content_id','task_container_id','prior_question_elapsed_time',
                        'prior_question_had_explanation']]
-y = samp_df['answered_correctly']
+y = df['answered_correctly']
 
 test_set = test_df[['content_id','task_container_id','prior_question_elapsed_time',
                     'prior_question_had_explanation']]
@@ -80,7 +80,7 @@ classifier = SVC(kernel = 'rbf', verbose=True)          #initializing classifica
 classifier.fit(x, y)                                    #training classifier
 
 y_pred = classifier.predict(test_set)                   #using classifier to predict on test_set
-acc = eval(y_pred, test_df['answered_correctly'])       #evaluating prediction results
+acc_svc = eval(y_pred, test_df['answered_correctly'])   #evaluating prediction results
 
 
 #Logistic Regression
@@ -88,4 +88,4 @@ regressor = LogisticRegression(verbose=1)               #initializing regression
 regressor.fit(x, y)                                     #training regressor
 
 y_pred_lr = regressor.predict(test_set)                 #using regressor to predict on test_set
-acc = eval(y_pred_lr, test_df['answered_correctly'])    #evaluating prediction results
+acc_lr = eval(y_pred_lr, test_df['answered_correctly']) #evaluating prediction results
