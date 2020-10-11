@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Oct  9 16:24:15 2020
-
 @author: Czander
 """
 
