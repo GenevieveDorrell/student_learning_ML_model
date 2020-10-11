@@ -9,20 +9,6 @@ import time
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 
-'''
-#Use this to load data from 'train.csv' and then save as a pickle file
-train_df = pd.DataFrame()
-for chunk in pd.read_csv('train.csv', chunksize=1000000, low_memory=False,
-                        dtype={'row_id': 'int64', 'timestamp': 'int64', 'user_id': 
-                       'int32', 'content_id': 'int16', 'content_type_id': 'int8',
-                       'task_container_id': 'int16', 'user_answer': 'int8', 
-                       'answered_correctly': 'int8', 'prior_question_elapsed_time': 
-                    'float32','prior_question_had_explanation': 'boolean',}):
-    train_df = pd.concat([train_df, chunk], ignore_index=True)
-
-train_df.to_pickle("train.pkl")
-'''
-
 def count_users(df):
     user_count = dict()
     for user in df['user_id']:
@@ -41,6 +27,17 @@ def eval(y_pred, y):
             count += 1
     return count/len(y)
 
+#Use this to load data from 'train.csv' and then save as a pickle file
+train_df = pd.DataFrame()
+for chunk in pd.read_csv('train.csv', chunksize=1000000, low_memory=False,
+                        dtype={'row_id': 'int64', 'timestamp': 'int64', 'user_id': 
+                       'int32', 'content_id': 'int16', 'content_type_id': 'int8',
+                       'task_container_id': 'int16', 'user_answer': 'int8', 
+                       'answered_correctly': 'int8', 'prior_question_elapsed_time': 
+                    'float32','prior_question_had_explanation': 'boolean',}):
+    train_df = pd.concat([train_df, chunk], ignore_index=True)
+
+train_df.to_pickle("train.pkl")
 
 train_df = pd.read_pickle("train.pkl")            #load time: ~36s
 total_users = count_users(train_df)               #counting number of students in the dataset
@@ -84,6 +81,7 @@ classifier.fit(x, y)                                    #training classifier
 
 y_pred = classifier.predict(test_set)                   #using classifier to predict on test_set
 acc = eval(y_pred, test_df['answered_correctly'])       #evaluating prediction results
+
 
 #Logistic Regression
 regressor = LogisticRegression(verbose=1)               #initializing regression model
