@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-
 @author: Czander
+
+Basic ML implementation for 'Digit Recognizer' dataset.
+No data wrangling at all, for 1000/42000 samples.
+
+Results (accuracy)
+Logistic Regression:    91.56
+Random Forest:          96.65
+Decision Tree:          85.51
 """
 
 import pandas as pd
@@ -24,11 +31,11 @@ def eval(y_pred, y):
 
 train_df = pd.read_csv('train.csv')
 
-samp_df = train_df[:1000]
+samp_df = train_df[:]       #to toggle sample size
 
 #data with validation split -- ~ 80-20 split (training/validation)
-train_set = samp_df[:800].copy()
-test_set = samp_df[801:].copy().reset_index()
+train_set = samp_df[:33600].copy()
+test_set = samp_df[33601:].copy().reset_index()
 x = train_set.drop(columns=['label'])
 y = train_set['label']
 x_test = test_set.drop(columns=['index','label'])
