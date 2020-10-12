@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 @author: Czander
+
+Basic implementation of ML to the Riiid dataset.
+Just to clarify, the methods implemented below do not actually work towards
+the knowledge tracing problem. I'm not really familiar with this problem
+and how exactly to structure the data for it. Seems to be an advanced
+ML problem.
+
 """
 
 import pandas as pd
