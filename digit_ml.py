@@ -64,3 +64,5 @@ dtree.fit(x, y)
 y_dt = dtree.predict(x_test)
 dt_score = round(dtree.score(x, y) * 100, 2)
 acc_dt = eval(y_dt, y_test.values)
+
+#nueral network & deep learning
