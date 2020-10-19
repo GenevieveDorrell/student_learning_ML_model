@@ -16,6 +16,7 @@ import time
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 
+
 def count_users(df):
     user_count = dict()
     for user in df['user_id']:
@@ -96,3 +97,4 @@ regressor.fit(x, y)                                     #training regressor
 
 y_pred_lr = regressor.predict(test_set)                 #using regressor to predict on test_set
 acc_lr = eval(y_pred_lr, test_df['answered_correctly']) #evaluating prediction results
+
