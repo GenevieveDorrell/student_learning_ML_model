@@ -77,7 +77,6 @@ acc_dt = eval(y_dt, y_test.values)
 
 #intial attempt at a neural network??????????
 class Net(nn.Module):
-
     def __init__(self):
         super(Net, self).__init__()
         # 1 input image channel, 10 output channels, 3x3 square convolution
@@ -126,6 +125,9 @@ out.backward(torch.randn(1, 10))
 # Get the data as Numpy arrays
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
+#print(x_test)
+#print(y_test)
+
 # Build a simple model
 inputs = keras.Input(shape=(28, 28))
 x = layers.experimental.preprocessing.Rescaling(1.0 / 255)(inputs)
@@ -148,3 +150,15 @@ history = model.fit(x_train, y_train, batch_size=batch_size, epochs=1)
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size)
 print("Fit on Dataset")
 history = model.fit(dataset, epochs=1)
+
+# Evaluate the model on the test data using `evaluate`
+print("Evaluate on test data")
+results = model.evaluate(x_test, y_test, batch_size=128)
+print("test loss, test acc:", results)
+
+# Generate predictions (probabilities -- the output of the last layer)
+# on new data using `predict`
+print("Generate predictions for 3 samples")
+predictions = model.predict(x_test[:3], 3)
+print("predictions shape:", predictions.shapes)
+print(y_test[:3])
