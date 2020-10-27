@@ -45,3 +45,16 @@ predictions = model.predict(np.array(x_test[0]), 1)
 print(predictions)
 #print("predictions shape:", predictions.shapes)
 #print(y_test[:3])
+
+
+def eval(y_pred, y):
+    count = 0
+    for i,row in enumerate(y_pred):
+        row = list(row)
+        val = row.index(max(row))
+        count += int(val == y[i])
+    return round((count/len(y)) * 100, 2)
+  
+pred = model.predict(x_test)
+acc = eval(pred, y_test)
+print(acc)
