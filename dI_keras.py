@@ -31,7 +31,7 @@ history = model.fit(x_train, y_train, batch_size=batch_size, epochs=1)
 # Train the model for 1 epoch using a dataset
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size)
 print("Fit on Dataset")
-history = model.fit(dataset, epochs=2)
+history = model.fit(dataset, epochs=15)
 
 # Evaluate the model on the test data using `evaluate`
 print("Evaluate on test data")
@@ -40,9 +40,9 @@ print("test loss, test acc:", results)
 
 # Generate predictions (probabilities -- the output of the last layer)
 # on new data using `predict`
-print("Generate predictions for 3 samples")
-predictions = model.predict(np.array(x_test[0]), 1)
-print(predictions)
+#print("Generate predictions for 3 samples")
+#predictions = model.predict(np.array(x_test[0]), 1)
+#print(predictions)
 #print("predictions shape:", predictions.shapes)
 #print(y_test[:3])
 
