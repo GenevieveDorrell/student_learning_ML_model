@@ -1,17 +1,24 @@
 import pandas as pd
 import numpy as np
 #keras
+#dataset https://www.kaggle.com/crawford/emnist?select=emnist-balanced-train.csv
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
+# accuracy = 83.54
 # Get the data as Numpy arrays
-(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
-#print(keras.datasets.mnist)
-#print(x_train)
-#print(y_train)
+#train_set = np.genfromtxt('emnist-balanced-train.csv',delimiter=',')
+train_set = pd.read_csv('emnist-balanced-train.csv',header=None)
+x_train = train_set.drop(0, axis='columns')
+y_train = train_set[0]
+x_train = pd.DataFrame.to_numpy(x_train)
+y_train = pd.DataFrame.to_numpy(y_train)
 
-#print(x_test)
-#print(y_test)
+test_set = pd.read_csv('emnist-balanced-test.csv',header=None)
+x_test = test_set.drop(0, axis='columns')
+y_test = test_set[0]
+x_test = pd.DataFrame.to_numpy(x_test)
+y_test = pd.DataFrame.to_numpy(y_test)
 
 # Build a simple model
 inputs = keras.Input(shape=(28, 28))
@@ -19,7 +26,7 @@ x = layers.experimental.preprocessing.Rescaling(1.0 / 255)(inputs)
 x = layers.Flatten()(x)
 x = layers.Dense(128, activation="relu")(x)
 x = layers.Dense(128, activation="relu")(x)
-outputs = layers.Dense(10, activation="softmax")(x)
+outputs = layers.Dense(47, activation="softmax")(x)
 model = keras.Model(inputs, outputs)
 model.summary()
 
@@ -29,17 +36,18 @@ model.compile(optimizer="adam", loss="sparse_categorical_crossentropy")
 # Train the model for 1 epoch from Numpy data
 batch_size = 64
 print("Fit on NumPy data")
-history = model.fit(x_train, y_train, batch_size=batch_size, epochs=1)
+history = model.fit(x_train, y_train, batch_size=batch_size, epochs=20)
 
 # Train the model for 1 epoch using a dataset
-dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size)
-print("Fit on Dataset")
-history = model.fit(dataset, epochs=15)
+#dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size)
+#print("Fit on Dataset")
+#history = model.fit(dataset, epochs=15)
 
 # Evaluate the model on the test data using `evaluate`
-print("Evaluate on test data")
-results = model.evaluate(x_test, y_test, batch_size=128)
-print("test loss, test acc:", results)
+
+#results = model.evaluate(x_test, y_test, batch_size=128)
+
+#print("test loss, test acc:", results)
 
 # Generate predictions (probabilities -- the output of the last layer)
 # on new data using `predict`
@@ -57,7 +65,7 @@ def eval(y_pred, y):
         val = row.index(max(row))
         count += int(val == y[i])
     return round((count/len(y)) * 100, 2)
-  
+print("Evaluate on test data")
 pred = model.predict(x_test)
 acc = eval(pred, y_test)
 print(acc)

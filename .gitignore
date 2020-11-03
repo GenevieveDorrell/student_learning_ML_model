@@ -1,3 +1,5 @@
 env
 train.csv
 train.pkl
+emnist-balanced-test.csv
+emnist-balanced-train.csv
