@@ -3,6 +3,8 @@
 
 CNN -- Activation: ReLU, Loss function: Cross Entropy, Optimizer: SGD
 
+test
+
 (1 epoch, batch size: 1)
 Training time: ~3 mins
 Accuracy: 10.28?
