@@ -39,55 +39,6 @@ batch_size = 100
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
 
-# Step by Step Process of CNN -- (ReLU activations)
-# Conv1 -> Max Pool -> Conv2 -> Max Pool -> FC1 -> FC2 -> FC3
-for i, (x, labels) in enumerate(train_loader):
-    x = x.view([batch_size, 1, 28, 28])     # specifying 1 channel image (no rgb)
-    if i==0: break
-
-conv1 = nn.Conv2d(1, 10, 3)
-conv2 = nn.Conv2d(10, 20, 4)
-fc1 = nn.Linear(20 * 5 * 5, batch_size)
-fc2 = nn.Linear(batch_size, 128)
-fc3 = nn.Linear(128, 10)
-
-y = conv1(x)                    # 1st conv layer
-print(y.size())
-
-z = F.relu(y)                   # 1st ReLU activation
-print(z.size())
-
-x2 = F.max_pool2d(z, (2, 2))    # 1st max pooling layer (2d)
-print(x2.size())
-
-y2 = conv2(x2)                  # 2nd conv layer
-print(y2.size())
-
-z2 = F.relu(y2)                 # 2nd ReLU activation
-print(z2.size())
-
-x3 = F.max_pool2d(z2, (2, 2))   # 2nd max pooling layer (2d)
-print(x3.size())
-
-x3 = x3.view(batch_size, -1)                # Flattening
-print(x3.size())
-
-x4 = F.relu(fc1(x3))            # 1st Fully Connected Layer
-print(x4.size())
-
-x5 = F.relu(fc2(x4))            # 2nd Fully Connected Layer
-print(x5.size())
-
-x6 = F.relu(fc3(x5))            # 3rd Fully Connected Layer (output: 10 classes)
-print(x6.size())
-
-pred = torch.max(x6.data, 1)[1]     # Calculating results
-count = 0
-for j,item in enumerate(pred):
-    count += int(item == labels[j])         # Obviously results will suck
-print(count, "/", len(labels), "correct")   # with only training on one batch of 100
-
-
 # Building CNN model
 class Net(nn.Module):
     def __init__(self):
@@ -112,48 +63,49 @@ class Net(nn.Module):
         return x
 
 # For training model on data
-def train_nn(net, train_loader, batch_size=batch_size):
-    start = time.time()
-    for i,(feats, labels) in enumerate(train_loader):
-        feats = feats.view([batch_size, 1, 28, 28])  
-    
-        optimizer.zero_grad()
-
-        output = net(feats)
-    
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
-
-        if i*batch_size%100==0: 
-            print(i*batch_size, "/", len(train_loader)*batch_size)
-
-    print(round((time.time() - start), 2), "s")
-
-# For testing model with test dataset
-def test_nn(net, test_loader, batch_size=batch_size):
-    count = 0
-    for i,(test, labels) in enumerate(test_loader):
-        test = test.view([batch_size, 1, 28, 28])
-
-        test_out = net(test)
-        pred = torch.max(test_out, 1)[1]
-        for j,item in enumerate(pred):
-            count += int(item == labels[j])
-    
-        if i*batch_size%100==0:
-            print(i*batch_size, "/", len(test_loader)*batch_size)
-            print(count, "/", i*batch_size)
-    
-    print("Accuracy: ", (count/len(x_test))*100)
-
-# Initializing model, loss function, and optimizer
 net = Net()
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-train_nn(net, train_loader)
-test_nn(net, test_loader)
+# Training model on data
+start = time.time()
+for epoch in range(2):
+    print("\nEpoch", epoch+1)
+    running_loss = 0
+    for i, (feats, labels) in enumerate(train_loader):
+        feats = feats.view([batch_size, 1, 28, 28])
+
+        optimizer.zero_grad()
+
+        output = net(feats)
+
+        loss = criterion(output, labels)
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+        if i * batch_size % 10000 == 0:
+            print(i * batch_size, "/", len(train_loader) * batch_size,
+                  "\tLoss:", running_loss/(i*batch_size+1))
+
+print(round((time.time() - start), 2), "s")
+
+# Testing model with test dataset
+with torch.no_grad():
+    count = 0
+    for i, (test, labels) in enumerate(test_loader):
+        test = test.view([batch_size, 1, 28, 28])
+
+        test_out = net(test)
+        pred = torch.max(test_out, 1)[1]
+        for j, item in enumerate(pred):
+            count += int(item == labels[j])
+
+        if (i>0 and i * batch_size % 1000 == 0):
+            print("Correct Predictions:", count, "/", i * batch_size)
+
+print("Accuracy: ", (count / len(x_test)) * 100)
+
 
 # Saving/loading model
 PATH = './torch_conv100.nn'

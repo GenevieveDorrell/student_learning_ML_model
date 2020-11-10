@@ -115,6 +115,7 @@ with torch.no_grad():
 
 print("Accuracy: ", (count / len(x_test)) * 100)
 
+
 # Saving/loading model
 PATH = './torch_conv100.nn'
 torch.save(net.state_dict(), PATH)
