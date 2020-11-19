@@ -19,10 +19,22 @@ x_test = test_set.drop(0, axis='columns')
 y_test = test_set[0]
 x_test = pd.DataFrame.to_numpy(x_test)
 y_test = pd.DataFrame.to_numpy(y_test)
+x_test = x_test.reshape(-1, 28, 28, 1)
+x_train = x_train.reshape(-1, 28, 28, 1)
+
+pool_size = (2, 2)
 
 # Build a simple model
-inputs = keras.Input(shape=(28, 28))
+inputs = keras.Input(shape=(28, 28, 1))
 x = layers.experimental.preprocessing.Rescaling(1.0 / 255)(inputs)
+#x = inputs.reshape(-1, 28, 28, 1)
+x = layers.Convolution2D(25, 5, 5, activation='relu')(x)
+x = layers.MaxPooling2D(pool_size=pool_size)(x)
+x = layers.Convolution2D(25, 5, 5, activation='relu')(x)
+x = layers.MaxPooling2D(pool_size=pool_size)(x)
+x = layers.Convolution2D(25, 4, 4, activation='relu')(x)
+#x = layers.experimental.preprocessing.Rescaling(1.0 / 255)(inputs)
+#reshape(-1, 28, 28, 1)
 x = layers.Flatten()(x)
 x = layers.Dense(128, activation="relu")(x)
 x = layers.Dense(128, activation="relu")(x)
@@ -36,7 +48,7 @@ model.compile(optimizer="adam", loss="sparse_categorical_crossentropy")
 # Train the model for 1 epoch from Numpy data
 batch_size = 64
 print("Fit on NumPy data")
-history = model.fit(x_train, y_train, batch_size=batch_size, epochs=20)
+history = model.fit(x_train, y_train, batch_size=batch_size, epochs=15)
 
 # Train the model for 1 epoch using a dataset
 #dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size)

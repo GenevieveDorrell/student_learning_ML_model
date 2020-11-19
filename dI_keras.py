@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 #keras
+#accuracy 97.84
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -34,7 +35,7 @@ history = model.fit(x_train, y_train, batch_size=batch_size, epochs=1)
 # Train the model for 1 epoch using a dataset
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(batch_size)
 print("Fit on Dataset")
-history = model.fit(dataset, epochs=15)
+history = model.fit(dataset, epochs=20)
 
 # Evaluate the model on the test data using `evaluate`
 print("Evaluate on test data")

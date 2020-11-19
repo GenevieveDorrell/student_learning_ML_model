@@ -10,7 +10,6 @@ Logistic Regression:    91.56
 Random Forest:          96.65
 Decision Tree:          85.51
 """
-
 import pandas as pd
 import numpy as np
 import time
