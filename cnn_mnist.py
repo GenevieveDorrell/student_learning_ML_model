@@ -3,21 +3,8 @@
 
 CNN -- Activation: ReLU, Loss function: Cross Entropy, Optimizer: SGD
 
-(1 epoch, batch size: 1)
-Training time: ~3 mins
-Accuracy: 10.28?
-
-(1 epoch, batch size: 500)
-Training time: ~14 secs
-Accuracy: 95.44
-
-(1 epoch, batch size: 100)
-Training time: ~11 secs
-Accuracy: 97.13
-(2 epochs, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
-Accuracy: 98.07, 98.39, 98.46, 98.47, (98.44), 98.53, 98.55, 98.58, 
-            (98.54), 98.72, 98.76, (98.64), *98.82*, (98.74), ((98.62)), (98.69), 
-            ((98.64)), ((98.53)), ((98.39)), (98.65)
+(20 epoch, batch size: 100)
+Accuracy: 98.82
 """
 import time
 from tensorflow import keras

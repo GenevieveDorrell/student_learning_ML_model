@@ -7,14 +7,8 @@ EMNIST Dataset -- 47 classes
 CNN -- Activation: ReLU, Loss function: Cross Entropy, Optimizer: SGD
 
 batch_size = 100
-1 epoch -- time: 27.65s
-Accuracy: 80.88
-
-(epoch, acc):   (2, 82.96), (3, 83.93), (4, 84.52), (5, 85.57), (6, 85.88), 
-                (7, 85.96), (8, _85.91), (9, _85.89), (10, 86.20), (11, 86.95), 
-                (12, _86.61), (13, 86.78), (14, _86.67), (15, 86.69), (16, 86.74), 
-                (17, _86.73), (18, _86.38), (19, 86.69), (20, *86.97)
-
+20 epochs 
+Accuracy: 86.97
 """
 import time
 import pandas as pd
