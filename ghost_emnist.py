@@ -313,8 +313,8 @@ class Ghost(nn.Module):
         return y
 
 # Initializing model, loss function, and optimizer
-#net = ghostnet(num_classes=47)
-net = Ghost()
+#net = ghostnet(num_classes=47)         # full GhostNet
+net = Ghost()                           # single Ghost module
 
 device = torch.device("cuda:0")
 #device = torch.device("cpu")
